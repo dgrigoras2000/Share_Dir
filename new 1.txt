@@ -1,0 +1,4 @@
+C:\Users\DGrigoras\Desktop\Android App\cmdline-tools\bin>avdmanager create avd --name MyEmulator --package "system-images;android-29;google_apis;x86_64" --device "pixel" --sdcard 512M --force
+[=======================================] 100% Fetch remote repository...
+Error: Package path is not valid. Valid system image paths are:
+null
