@@ -2,3 +2,6 @@ C:\Users\DGrigoras\Desktop\Android App\cmdline-tools\bin>avdmanager create avd -
 [=======================================] 100% Fetch remote repository...
 Error: Package path is not valid. Valid system image paths are:
 null
+
+
+https://www.amazon.com/Card%EF%BC%8C3DS-Flashcard-Adapter-Support-Nintendo-DS/dp/B098T6VMYQ/ref=sr_1_4?keywords=r4+card&qid=1700139933&sr=8-4
