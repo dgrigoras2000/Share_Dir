@@ -71,3 +71,62 @@ je dame kali to php pou tin javascript
 
 const MainForm = document.querySelector("#MainForm");
 MainForm.addEventListener("submit",SubmitForm);
+
+
+
+
+βδβχνσ
+function postrequests(){
+
+  const address = document.querySelector("#Address");
+  const region = document.querySelector("#Region");
+  const city = document.querySelector("#City");
+
+  addressvalue= address.value;
+  regionvalue= region.value;
+  cityvalue= city.value;
+
+
+  
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+  if (xhr.readyState !== 4) return;
+  if (xhr.status >= 200 && xhr.status < 300) {
+    console.log(xhr.responseText);
+  } else {
+    console.log('error', xhr);
+  }
+  };
+
+  xhr.open('POST', "PHP/php.php");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  const data = {};
+
+  data.address = addressvalue;
+  data.region = regionvalue;
+  data.city=cityvalue;
+  data.username='aioann19';
+
+  // data.time=now;
+  xhr.send(JSON.stringify(data));
+    
+    
+}
+
+function getrequests(){
+  
+  var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function () {
+  if (xhr.readyState !== 4) return;
+    if (xhr.status >= 200 && xhr.status < 300) {
+      const logsresp=JSON.parse(xhr.responseText);
+      ShowLogs(logsresp);
+
+    } else {
+      console.log('error', xhr);
+    }
+  };
+  xhr.open('GET', 'PHP/php.php');
+  xhr.send();
+}
