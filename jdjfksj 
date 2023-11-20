@@ -66,3 +66,8 @@ function callNom(address,region,city,degree){
 }
 
 je dame kali to php pou tin javascript
+
+
+
+const MainForm = document.querySelector("#MainForm");
+MainForm.addEventListener("submit",SubmitForm);
