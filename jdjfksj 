@@ -1,0 +1,68 @@
+<button type="submit"  class="btn btn-primary" id="sumbitbutt"><i class="fas fa-search"></i>Search</button>
+
+function SubmitForm(event){
+
+  event.preventDefault();
+  const address = document.querySelector("#Address");
+  const region = document.querySelector("#Region");
+  const city = document.querySelector("#City");
+
+  addressvalue= address.value;
+  regionvalue= region.value;
+  cityvalue= city.value;
+
+  const degreevalue = document.querySelector('input[name="Degree"]:checked').value;
+
+
+  const valid =checkValidation(addressvalue,regionvalue,city.value)
+
+  if(!valid ) return;
+  // if(sumbited) return;
+
+  sumbited=true;
+
+
+  callNom(addressvalue,regionvalue,cityvalue,degreevalue);
+
+}
+tto en pou pata to sumbit ara en to antistixo aman patoume to login mas
+
+
+
+function callNom(address,region,city,degree){
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+
+        
+
+        const nomresponse=JSON.parse(xhr.responseText);
+        if (nomresponse.length === 0) {
+
+          alert("No result for that location.");
+          return;
+          
+        }
+        else{
+
+          postrequests();
+          callWeather(nomresponse[0]["lat"],nomresponse[0]["lon"],degree,city);
+          callWeatherForecast(nomresponse[0]["lat"],nomresponse[0]["lon"],degree);
+          callOpenAI(cityvalue);
+        
+        }
+
+        // return nomresponse[0];
+      } else {
+        alert("No result for that location.");
+        console.log("error", xhr);
+    }
+  };
+
+  xhr.open("GET",`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address+","+region+","+city)}&format=json`);
+  xhr.send();
+}
+
+je dame kali to php pou tin javascript
