@@ -1,0 +1,53 @@
+body {
+    font-family: Arial;
+  }
+  
+  h1 {
+    color: green;
+    font-family: Tahoma;
+  }
+  
+  span {
+    font-style: italic;
+  }
+  
+  #id_h2 {
+    color: red;
+    text-align: left;
+  }
+  
+  .section_tabs {
+    color: blue;
+    background-color: #ccc;
+    text-align: center;
+    width: 50%;
+  }
+  
+  .yello_sections{
+    background-color: yellow;
+  }
+  
+  li:first-child{
+    color: magenta;
+    font-weight: bold;
+  }
+  
+  #unique_div{
+    width: 50%;
+    height: auto;
+    border-style: dashed;
+    color: black;
+    border-width: 2px;
+  }
+  
+  #unique_ul{
+    font-family: Consolas;
+  }
+  
+  #d3_section{
+    border-color: red;
+    border-style: dotted;
+    background-color: rgba(0,0,255,0.1);
+  
+  }
+  

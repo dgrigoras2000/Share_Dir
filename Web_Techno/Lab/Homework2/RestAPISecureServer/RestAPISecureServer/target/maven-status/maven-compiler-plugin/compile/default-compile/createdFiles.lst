@@ -1,0 +1,10 @@
+cy\ac\ucy\cs\epl425\RestAPIServer\service\BookService.class
+cy\ac\ucy\cs\epl425\RestAPIServer\model\Review.class
+cy\ac\ucy\cs\epl425\RestAPIServer\repository\BookRepository.class
+cy\ac\ucy\cs\epl425\RestAPIServer\model\Book.class
+cy\ac\ucy\cs\epl425\RestAPISecureServer\RestApiSecureServerApplication.class
+cy\ac\ucy\cs\epl425\RestAPIServer\security\SecurityConfiguration.class
+cy\ac\ucy\cs\epl425\RestAPIServer\controller\ReviewController.class
+cy\ac\ucy\cs\epl425\RestAPIServer\repository\ReviewRepository.class
+cy\ac\ucy\cs\epl425\RestAPIServer\controller\BookController.class
+cy\ac\ucy\cs\epl425\RestAPIServer\service\ReviewService.class
