@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chris Supermarket</title>
+  <link rel="stylesheet" href="CSS\style.css">
+  <script src="JS\JSCode.js" defer></script>
+</head>
+
+<body>
+  <img src="Images\Chris_Supermarket.jpg" alt="Chris_Supermarket">
+
+  <h1>SuperMarket Products</h1>
+
+  <div id="supermarketProducts">
+    <p class="products" onclick="add_to_basket(this)">Bread</p>
+    <p class="products" onclick="add_to_basket(this)">Milk</p>
+    <p class="products" onclick="add_to_basket(this)">Pasta</p>
+    <p class="products" onclick="add_to_basket(this)">Rise</p>
+    <p class="products" onclick="add_to_basket(this)">Noodles</p>
+  </div>
+
+  <h1>My Shopping Basket</h1>
+
+  <div id="shoppingBusket">
+    <!-- This is the busket that the products selected will be included -->
+  </div>
+
+  <button type="button" id="btn">Buy Products</button>
+
+  <div id="result"></div>
+
+</body>
+
+</html>

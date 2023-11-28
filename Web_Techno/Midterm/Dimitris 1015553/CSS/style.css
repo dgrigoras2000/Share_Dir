@@ -1,0 +1,47 @@
+body {
+  text-align: center;
+  height: auto;
+  padding: 0px 10px;
+}
+img {
+  width: 35%;
+  height: auto;
+}
+
+h1 {
+  background-color: blue;
+  border-radius: 10px;
+  color: white;
+}
+
+#supermarketProducts,
+#shoppingBusket {
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  margin-left: 30%;
+  margin-right: 30%;
+  text-align: center;
+  font-size: large;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.products:hover {
+  color: yellow;
+}
+
+.Bread,
+.Milk,
+.Pasta,
+.Rise,
+.Noodles {
+  color: red;
+}
+.Bread:hover,
+.Milk:hover,
+.Pasta:hover,
+.Rise:hover,
+.Noodles:hover {
+  color: blue;
+}
