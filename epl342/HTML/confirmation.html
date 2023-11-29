@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <style>
+        .result-container {
+            margin-top: 20px;
+        }
+
+        .result-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>LIST TO CONFIRM NEW ACCOMMODATION MANAGERS!</h1>
+
+<div class="result-container">
+   <!-- // <?php -->
+    // Check if there are rows in the result
+    if ($result->num_rows > 0) {
+        // Output data in individual div elements
+        while ($row = $result->fetch_assoc()) {
+            echo "<div class='result-item'>";
+            echo "<strong>Column 1:</strong> " . $row["column1"] . "<br>";
+            echo "<strong>Column 2:</strong> " . $row["column2"];
+            echo "</div>";
+        }
+    } else {
+        echo "No results found.";
+    }
+
+    // Close the database connection
+    $conn->close();
+    <!-- ?> -->
+</div>
+
+</body>
+</html>
