@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Filters</title>
+    <script src="filterjs.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .filter-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px; /* Adjust as needed */
+        }
+
+        .filter-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .filter-container .filter-section {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .filter-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .filter-container select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .filter-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FFA500; /* Orange color */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .filter-container button:hover {
+            background-color: #cc8400; /* Darker shade of orange for hover */
+        }
+
+        #custom-date-fields{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter-container">
+        <h2>Report Filters</h2>
+        <form>
+            <div class="filter-section">
+                <label for="time-period">Time Period:</label>
+                <select id="time-period" name="time-period" onchange="toggleCustomDate()"> /*Event Listener: Added onchange="toggleCustomDate()" to the "Time Period" dropdown to trigger the JavaScript function when the selection changes.*/
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="yearly">Yearly</option>
+                    <option value="custom">Custom Dates</option>
+                </select>
+
+                <!-- Custom date fields hidden initially -->
+                <div class="custom-date" id="custom-date-fields" >
+                    <input type="date" id="start-date" name="start-date">
+                    <input type="date" id="end-date" name="end-date">
+                </div>
+	    </div>
+
+            <div class="filter-section">
+                <label for="accommodation-type">Accommodation Type:</label>
+                <select id="accommodation-type" name="accommodation-type">
+		    <option value="motel">Motel</option>
+                    <!-- Populate with options based on your database -->
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <label for="room-type">Room Type:</label>
+                <select id="room-type" name="room-type">
+		    <option value="single">Single</option>
+                    <!-- Populate with options based on your database -->
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <label for="location">Location:</label>
+                <select id="location" name="location">
+		    <option value="nicosia">Nicosia</option>
+                    <!-- Populate with options based on your database -->
+                </select>
+            </div>
+
+            <button type="button" id="filterbutt">Generate Report</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleCustomDate() { /*JavaScript Function (toggleCustomDate): This function checks the value of the "Time Period" dropdown. If "Custom Dates" is selected, it displays the custom date fields. Otherwise, it hides them.*/
+
+            var timePeriod = document.getElementById("time-period").value;
+            var customDateFields = document.getElementById("custom-date-fields");
+
+            if (timePeriod === "custom") {
+                customDateFields.style.display = "block";
+            } else {
+                customDateFields.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
