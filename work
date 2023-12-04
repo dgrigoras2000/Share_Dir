@@ -53,3 +53,8 @@ int main() {
 ```
 
 This version dynamically allocates memory for the content inside the brackets, regardless of its length. Make sure to replace "your_file.txt" with the actual name of your input file.
+
+
+error: invalid conversion from ‘void*’ to ‘char*’ [-fpermissive]
+                 char *content = malloc(contentLength + 1);
+                                 ~~~~~~^~~~~~~~~~~~~~~~~~~
