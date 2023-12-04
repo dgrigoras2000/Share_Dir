@@ -1,0 +1,43 @@
+Certainly! Below is a simple C program that reads a file, parses the text between brackets ([]), and prints the text after a specific keyword (e.g., "gencards"):
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void parseFile(const char *filename, const char *keyword) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        char *startBracket = strchr(line, '[');
+        char *endBracket = strchr(line, ']');
+
+        if (startBracket != NULL && endBracket != NULL && startBracket < endBracket) {
+            char *content = startBracket + 1;
+            *endBracket = '\0';
+
+            if (strstr(content, keyword) != NULL) {
+                printf("Text between brackets: %s\n", content);
+            }
+        }
+    }
+
+    fclose(file);
+}
+
+int main() {
+    const char *filename = "your_file.txt";
+    const char *keyword = "gencards";
+
+    parseFile(filename, keyword);
+
+    return 0;
+}
+```
+
+Replace "your_file.txt" with the name of your input file. This program reads each line of the file, looks for text between brackets, and checks if it contains the specified keyword ("gencards"). If found, it prints the text between the brackets.
