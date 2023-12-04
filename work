@@ -1,4 +1,4 @@
-Certainly! Below is a simple C program that reads a file, parses the text between brackets ([]), and prints the text after a specific keyword (e.g., "gencards"):
+I understand. If the content inside the brackets has an unknown length, you can modify the program to dynamically allocate memory for the content. Here's an updated version:
 
 ```c
 #include <stdio.h>
@@ -17,13 +17,25 @@ void parseFile(const char *filename, const char *keyword) {
         char *startBracket = strchr(line, '[');
         char *endBracket = strchr(line, ']');
 
-        if (startBracket != NULL && endBracket != NULL && startBracket < endBracket) {
-            char *content = startBracket + 1;
+        while (startBracket != NULL && endBracket != NULL && startBracket < endBracket) {
+            char *contentStart = startBracket + 1;
             *endBracket = '\0';
 
-            if (strstr(content, keyword) != NULL) {
-                printf("Text between brackets: %s\n", content);
+            if (strstr(contentStart, keyword) != NULL) {
+                size_t contentLength = strlen(contentStart);
+                char *content = malloc(contentLength + 1);
+
+                if (content != NULL) {
+                    strcpy(content, contentStart);
+                    printf("Text between brackets: %s\n", content);
+                    free(content);
+                } else {
+                    printf("Memory allocation error.\n");
+                }
             }
+
+            startBracket = strchr(endBracket + 1, '[');
+            endBracket = strchr(endBracket + 1, ']');
         }
     }
 
@@ -40,4 +52,4 @@ int main() {
 }
 ```
 
-Replace "your_file.txt" with the name of your input file. This program reads each line of the file, looks for text between brackets, and checks if it contains the specified keyword ("gencards"). If found, it prints the text between the brackets.
+This version dynamically allocates memory for the content inside the brackets, regardless of its length. Make sure to replace "your_file.txt" with the actual name of your input file.
