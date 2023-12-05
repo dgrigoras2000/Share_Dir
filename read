@@ -1,0 +1,49 @@
+Certainly! Here's a simple C program that achieves the same task:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void extract_unknown_text(const char *filename) {
+    FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    char line[256];  // Adjust the buffer size as needed
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        char *start = strstr(line, "[bdjwxh]");
+        char *end = strstr(line, "[/bdjwxh]");
+
+        if (start != NULL && end != NULL) {
+            // Extract unknown length text
+            size_t length = end - (start + 8);  // 8 is the length of "[bdjwxh]"
+            char *unknown_text = malloc(length + 1);
+            strncpy(unknown_text, start + 8, length);
+            unknown_text[length] = '\0';
+
+            // Print or manipulate the unknown text as needed
+            printf("Unknown text: %s\n", unknown_text);
+
+            // Don't forget to free the allocated memory
+            free(unknown_text);
+        }
+    }
+
+    fclose(file);
+}
+
+int main() {
+    // Replace 'your_filename.txt' with the actual filename
+    const char *filename = "your_filename.txt";
+    extract_unknown_text(filename);
+
+    return 0;
+}
+```
+
+This C program reads a file line by line, searches for the `[bdjwxh]` and `[/bdjwxh]` tags, and extracts the unknown length text between them. It dynamically allocates memory to store the extracted text.
