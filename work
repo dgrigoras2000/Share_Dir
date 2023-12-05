@@ -1,21 +1,20 @@
-My apologies for the confusion. If you want to save only the word inside the brackets (excluding the content after the brackets), you can modify the code accordingly. Here's an updated version:
-
-```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "struct.h"
 
-// Define a struct for each node in the list
-struct Node {
-    char *name;
-    char *status;
-    struct Node *next;
-};
+char* checkIfConnected(){
+
+    char* isConnected = "Y";
+    return isConnected;
+}
 
 // Function to parse the file and update the list
-void parseFileAndUpdateList(const char *filename, const char *keyword, const char *startKeyword, struct Node **head) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
+void parseFileAndUpdateList(struct Node **head)
+{
+    FILE *file = fopen("zombie.ini", "r");
+    if (file == NULL)
+    {
         printf("Error opening file.\n");
         return;
     }
@@ -23,56 +22,59 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, const cha
     char line[256];
     int saveContent = 0; // Flag to control saving content to the list
 
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file))
+    {
         printf("Processing line: %s", line);
 
-        if (line[0] == '[') {
+        if (line[0] == '[')
+        {
             char *startBracket = strchr(line, '[');
             char *endBracket = strchr(line, ']');
 
-            if (startBracket != NULL && endBracket != NULL && startBracket < endBracket) {
+            if (startBracket != NULL && endBracket != NULL && startBracket < endBracket)
+            {
                 char *contentStart = startBracket + 1;
                 *endBracket = '\0';
 
-                if (strcmp(contentStart, startKeyword) == 0) {
+                if (strcmp(contentStart, "gencards") == 0)
+                {
                     saveContent = 1;
                     printf("Start saving content to the list.\n");
                     continue;
                 }
 
-                if (saveContent) {
-                    // Find the first space or newline character after the bracketed content
-                    char *spaceAfterBracket = strpbrk(contentStart, " \n");
-
-                    // Determine the length of the word inside the brackets
-                    size_t contentLength = (spaceAfterBracket != NULL)
-                        ? (size_t)(spaceAfterBracket - contentStart)
-                        : strlen(contentStart);
+                if (saveContent)
+                {
+                    // Extract unknown length text
+                    size_t contentLength = endBracket - (startBracket + 1);
+                    char *definedConnection = (char *)malloc((contentLength + 1) * sizeof(char));
+                    strncpy(definedConnection, startBracket + strlen("["), contentLength);
+                    definedConnection[contentLength] = '\0';
 
                     // Check if content is connected from a function
-                    int isConnected = strstr(contentStart, "()") != NULL;
+                    char *isConnected = checkIfConnected();
 
                     // Create a new Node
                     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-                    if (newNode != NULL) {
+                    if (newNode != NULL)
+                    {
                         // Update the node with dynamically allocated strings
                         newNode->name = (char *)malloc(contentLength + 1);
-                        strncpy(newNode->name, contentStart, contentLength);
-                        newNode->name[contentLength] = '\0';
+                        strncpy(newNode->name, definedConnection, contentLength);
 
-                        newNode->status = (char *)malloc(2);
-                        snprintf(newNode->status, 2, "%d", isConnected);
+                        newNode->status = (char *)malloc(sizeof(char));
+                        strncpy(newNode->status, isConnected, sizeof(char));
 
                         // Add the node to the list
                         newNode->next = *head;
                         *head = newNode;
 
                         printf("Added to list: Name: %s, Status: %s\n", newNode->name, newNode->status);
-                    } else {
+                    }
+                    else
+                    {
                         printf("Memory allocation error for Node.\n");
                     }
-
-                    saveContent = 0; // Stop saving content after the first word inside brackets
                 }
             }
         }
@@ -82,18 +84,22 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, const cha
 }
 
 // Function to print the list
-void printList(struct Node *head) {
+void printList(struct Node *head)
+{
     struct Node *current = head;
-    while (current != NULL) {
+    while (current != NULL)
+    {
         printf("Name: %s, Status: %s\n", current->name, current->status);
         current = current->next;
     }
 }
 
 // Function to free the memory allocated for the list
-void freeList(struct Node *head) {
+void freeList(struct Node *head)
+{
     struct Node *current = head;
-    while (current != NULL) {
+    while (current != NULL)
+    {
         struct Node *temp = current;
         current = current->next;
         free(temp->name);
@@ -102,14 +108,11 @@ void freeList(struct Node *head) {
     }
 }
 
-int main() {
-    const char *filename = "your_file.txt";
-    const char *keyword = "gencards";
-    const char *startKeyword = "port1";
-
+int main()
+{
     struct Node *head = NULL;
 
-    parseFileAndUpdateList(filename, keyword, startKeyword, &head);
+    parseFileAndUpdateList(&head);
 
     // Print the list
     printf("\nList contents:\n");
@@ -120,6 +123,3 @@ int main() {
 
     return 0;
 }
-```
-
-This updated version calculates the length of the word inside the brackets and allocates memory accordingly. It stops saving content after the first word inside brackets, ignoring the rest of the line. Adjust the `filename`, `keyword`, and `startKeyword` as needed for your specific use case.
