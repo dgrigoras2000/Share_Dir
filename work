@@ -1,4 +1,4 @@
-Certainly, if the content has an unknown word length, you can use dynamic memory allocation to handle varying lengths. Here's an updated version of the program:
+My apologies for the confusion. If you want to save only the word inside the brackets (excluding the content after the brackets), you can modify the code accordingly. Here's an updated version:
 
 ```c
 #include <stdio.h>
@@ -24,6 +24,8 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, const cha
     int saveContent = 0; // Flag to control saving content to the list
 
     while (fgets(line, sizeof(line), file)) {
+        printf("Processing line: %s", line);
+
         if (line[0] == '[') {
             char *startBracket = strchr(line, '[');
             char *endBracket = strchr(line, ']');
@@ -33,20 +35,31 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, const cha
                 *endBracket = '\0';
 
                 if (strcmp(contentStart, startKeyword) == 0) {
-                    saveContent = 1; // Start saving content to the list
-                    continue; // Skip adding the current line to the list
+                    saveContent = 1;
+                    printf("Start saving content to the list.\n");
+                    continue;
                 }
 
                 if (saveContent) {
+                    // Find the first space or newline character after the bracketed content
+                    char *spaceAfterBracket = strpbrk(contentStart, " \n");
+
+                    // Determine the length of the word inside the brackets
+                    size_t contentLength = (spaceAfterBracket != NULL)
+                        ? (size_t)(spaceAfterBracket - contentStart)
+                        : strlen(contentStart);
+
                     // Check if content is connected from a function
-                    // For demonstration purposes, assuming it's connected if it contains "()"
                     int isConnected = strstr(contentStart, "()") != NULL;
 
                     // Create a new Node
                     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
                     if (newNode != NULL) {
                         // Update the node with dynamically allocated strings
-                        newNode->name = strdup(contentStart);
+                        newNode->name = (char *)malloc(contentLength + 1);
+                        strncpy(newNode->name, contentStart, contentLength);
+                        newNode->name[contentLength] = '\0';
+
                         newNode->status = (char *)malloc(2);
                         snprintf(newNode->status, 2, "%d", isConnected);
 
@@ -58,6 +71,8 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, const cha
                     } else {
                         printf("Memory allocation error for Node.\n");
                     }
+
+                    saveContent = 0; // Stop saving content after the first word inside brackets
                 }
             }
         }
@@ -107,4 +122,4 @@ int main() {
 }
 ```
 
-This version uses `strdup` to dynamically allocate memory for the `name` string, allowing for an unknown word length. Adjust the `filename`, `keyword`, and `startKeyword` as needed for your specific use case.
+This updated version calculates the length of the word inside the brackets and allocates memory accordingly. It stops saving content after the first word inside brackets, ignoring the rest of the line. Adjust the `filename`, `keyword`, and `startKeyword` as needed for your specific use case.
