@@ -1,4 +1,4 @@
-Certainly! If you want to skip lines that don't start with `[` and extract the content between `[` and `]` for lines that do, you can adjust the code accordingly. Below is an updated version of the program:
+Certainly, if the content has an unknown word length, you can use dynamic memory allocation to handle varying lengths. Here's an updated version of the program:
 
 ```c
 #include <stdio.h>
@@ -13,7 +13,7 @@ struct Node {
 };
 
 // Function to parse the file and update the list
-void parseFileAndUpdateList(const char *filename, const char *keyword, struct Node **head) {
+void parseFileAndUpdateList(const char *filename, const char *keyword, const char *startKeyword, struct Node **head) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error opening file.\n");
@@ -21,6 +21,8 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, struct No
     }
 
     char line[256];
+    int saveContent = 0; // Flag to control saving content to the list
+
     while (fgets(line, sizeof(line), file)) {
         if (line[0] == '[') {
             char *startBracket = strchr(line, '[');
@@ -30,25 +32,32 @@ void parseFileAndUpdateList(const char *filename, const char *keyword, struct No
                 char *contentStart = startBracket + 1;
                 *endBracket = '\0';
 
-                // Check if content is connected from a function
-                // For demonstration purposes, assuming it's connected if it contains "()"
-                int isConnected = strstr(contentStart, "()") != NULL;
+                if (strcmp(contentStart, startKeyword) == 0) {
+                    saveContent = 1; // Start saving content to the list
+                    continue; // Skip adding the current line to the list
+                }
 
-                // Create a new Node
-                struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-                if (newNode != NULL) {
-                    // Update the node with dynamically allocated strings
-                    newNode->name = strdup(contentStart);
-                    newNode->status = (char *)malloc(2);
-                    snprintf(newNode->status, 2, "%d", isConnected);
+                if (saveContent) {
+                    // Check if content is connected from a function
+                    // For demonstration purposes, assuming it's connected if it contains "()"
+                    int isConnected = strstr(contentStart, "()") != NULL;
 
-                    // Add the node to the list
-                    newNode->next = *head;
-                    *head = newNode;
+                    // Create a new Node
+                    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+                    if (newNode != NULL) {
+                        // Update the node with dynamically allocated strings
+                        newNode->name = strdup(contentStart);
+                        newNode->status = (char *)malloc(2);
+                        snprintf(newNode->status, 2, "%d", isConnected);
 
-                    printf("Added to list: Name: %s, Status: %s\n", newNode->name, newNode->status);
-                } else {
-                    printf("Memory allocation error for Node.\n");
+                        // Add the node to the list
+                        newNode->next = *head;
+                        *head = newNode;
+
+                        printf("Added to list: Name: %s, Status: %s\n", newNode->name, newNode->status);
+                    } else {
+                        printf("Memory allocation error for Node.\n");
+                    }
                 }
             }
         }
@@ -81,10 +90,11 @@ void freeList(struct Node *head) {
 int main() {
     const char *filename = "your_file.txt";
     const char *keyword = "gencards";
+    const char *startKeyword = "port1";
 
     struct Node *head = NULL;
 
-    parseFileAndUpdateList(filename, keyword, &head);
+    parseFileAndUpdateList(filename, keyword, startKeyword, &head);
 
     // Print the list
     printf("\nList contents:\n");
@@ -97,4 +107,4 @@ int main() {
 }
 ```
 
-This version of the code only processes lines that start with `[`. It extracts the content between `[` and `]` and adds it to the list, skipping lines that do not meet this condition. Adjust the `filename` and `keyword` as needed for your specific use case.
+This version uses `strdup` to dynamically allocate memory for the `name` string, allowing for an unknown word length. Adjust the `filename`, `keyword`, and `startKeyword` as needed for your specific use case.
