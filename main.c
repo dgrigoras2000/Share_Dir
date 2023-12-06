@@ -82,3 +82,7 @@ int parseFileAndUpdateList()
     fclose(file);
 	return 0;
 }
+
+
+error: cannot convert ‘ConnectionsNode*’ {aka ‘_ConnectionsNode_*’} to ‘_ConnectionsLinkedkList_*’ in assignment
+        PendingList.last=newNode;
