@@ -1,26 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "struct.h"
-
-char* checkIfConnected(){
-
-    char* isConnected = "Y";
-    return isConnected;
-}
-
 // Function to parse the file and update the list
-void parseFileAndUpdateList(struct Node **head)
+int parseFileAndUpdateList()
 {
     FILE *file = fopen("zombie.ini", "r");
     if (file == NULL)
     {
         printf("Error opening file.\n");
-        return;
+        return 1;
     }
 
     char line[256];
     int saveContent = 0; // Flag to control saving content to the list
+	ConnectionsNode *newNode;
+
 
     while (fgets(line, sizeof(line), file))
     {
@@ -52,74 +43,42 @@ void parseFileAndUpdateList(struct Node **head)
                     definedConnection[contentLength] = '\0';
 
                     // Check if content is connected from a function
-                    char *isConnected = checkIfConnected();
+                    char *isConnected = InitializeStatus();
 
                     // Create a new Node
-                    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-                    if (newNode != NULL)
-                    {
+					if ((newNode = (ConnectionsNode*) malloc(sizeof(ConnectionsNode))) == NULL )
+					{
+						WriteTrace(1,"\nOut of memory");
+						printf("Memory allocation error for Node.\n");
+						return 1;
+					}
+						newNode->next=NULL;
                         // Update the node with dynamically allocated strings
-                        newNode->name = (char *)malloc(contentLength + 1);
-                        strncpy(newNode->name, definedConnection, contentLength);
+						memcpy(&(newNode->sectionName), definedConnection, sizeof(char)*(contentLength + 1));
+						memcpy(&(newNode->status), isConnected, sizeof(char));
 
-                        newNode->status = (char *)malloc(sizeof(char));
-                        strncpy(newNode->status, isConnected, sizeof(char));
 
                         // Add the node to the list
-                        newNode->next = *head;
-                        *head = newNode;
+                        if (PendingList.head == NULL && PendingList.last == NULL)
+						{
+							PendingList.head=newNode;
+							PendingList.last=newNode;
+							PendingList.sizeOfList=1;
+						}
+						else
+						{
+							PendingList.last->next=newNode;
+							PendingList.last=newNode;
+							PendingList.sizeOfList++;
+						}
 
-                        printf("Added to list: Name: %s, Status: %s\n", newNode->name, newNode->status);
-                    }
-                    else
-                    {
-                        printf("Memory allocation error for Node.\n");
-                    }
+                        printf("Added to list: Name: %s, Status: %s\n", newNode->sectionName, newNode->status);
+
                 }
             }
         }
     }
 
     fclose(file);
-}
-
-// Function to print the list
-void printList(struct Node *head)
-{
-    struct Node *current = head;
-    while (current != NULL)
-    {
-        printf("Name: %s, Status: %s\n", current->name, current->status);
-        current = current->next;
-    }
-}
-
-// Function to free the memory allocated for the list
-void freeList(struct Node *head)
-{
-    struct Node *current = head;
-    while (current != NULL)
-    {
-        struct Node *temp = current;
-        current = current->next;
-        free(temp->name);
-        free(temp->status);
-        free(temp);
-    }
-}
-
-int main()
-{
-    struct Node *head = NULL;
-
-    parseFileAndUpdateList(&head);
-
-    // Print the list
-    printf("\nList contents:\n");
-    printList(head);
-
-    // Free the memory allocated for the list
-    freeList(head);
-
-    return 0;
+	return 0;
 }
