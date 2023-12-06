@@ -109,3 +109,44 @@ printLinkedList(&PendingList);
 ```
 
 This function will iterate through the linked list and print the `sectionName` and `status` of each node. Make sure to adapt it based on the actual structure of your linked list and node.
+
+
+
+To free the memory of nodes in a linked list and the list itself, you need to traverse the list and deallocate the memory allocated for each node. Additionally, you may also need to free any dynamically allocated memory within each node. Here's an example function to free the memory:
+
+```c
+void freeLinkedList(ConnectionsLinkedList *list) {
+    if (list == NULL || list->head == NULL) {
+        return; // Nothing to free
+    }
+
+    ConnectionsNode *current = list->head;
+    ConnectionsNode *next;
+
+    while (current != NULL) {
+        next = current->next;
+
+        // Free any dynamically allocated content within the node
+        free(current->sectionName); // Assuming sectionName is dynamically allocated
+        // Free any other dynamically allocated content if present
+
+        // Free the node itself
+        free(current);
+
+        current = next;
+    }
+
+    // Set list to an empty state
+    list->head = NULL;
+    list->last = NULL;
+    list->sizeOfList = 0;
+}
+```
+
+You can call this function when you are done with the linked list and want to release the allocated memory. For example:
+
+```c
+freeLinkedList(&PendingList);
+```
+
+Make sure to adjust the code based on the actual structure of your nodes and the data they contain. If there are additional dynamically allocated fields within the nodes, you need to free those as well.
