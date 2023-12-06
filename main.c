@@ -83,6 +83,29 @@ int parseFileAndUpdateList()
 	return 0;
 }
 
+To print the data from nodes in a linked list, you can traverse the list and print the content of each node. Here's an example function that you can use:
 
-error: cannot convert ‘ConnectionsNode*’ {aka ‘_ConnectionsNode_*’} to ‘_ConnectionsLinkedkList_*’ in assignment
-        PendingList.last=newNode;
+```c
+void printLinkedList(const ConnectionsLinkedList *list) {
+    if (list == NULL || list->head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    ConnectionsNode *current = list->head;
+
+    while (current != NULL) {
+        printf("Name: %s, Status: %s\n", current->sectionName, current->status);
+        current = current->next;
+    }
+}
+```
+
+Assuming your `ConnectionsLinkedList` structure looks like the one in your previous code, you can use this function after populating the list with nodes. For example, call it after calling `parseFileAndUpdateList()`:
+
+```c
+// Assuming PendingList is a global variable or declared in the same scope
+printLinkedList(&PendingList);
+```
+
+This function will iterate through the linked list and print the `sectionName` and `status` of each node. Make sure to adapt it based on the actual structure of your linked list and node.
