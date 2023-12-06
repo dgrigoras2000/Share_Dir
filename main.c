@@ -150,3 +150,37 @@ freeLinkedList(&PendingList);
 ```
 
 Make sure to adjust the code based on the actual structure of your nodes and the data they contain. If there are additional dynamically allocated fields within the nodes, you need to free those as well.
+
+
+To find the correct node in your linked list with the name "port1" and update its status, you can modify your code to include a search function. Here's an example:
+
+```c
+// Function to find and update the status of a node by name
+void updateStatusByName(ConnectionsLinkedList *list, const char *name, const char *newStatus) {
+    if (list == NULL || list->head == NULL || name == NULL || newStatus == NULL) {
+        return; // Invalid input
+    }
+
+    ConnectionsNode *current = list->head;
+
+    while (current != NULL) {
+        if (strcmp(current->sectionName, name) == 0) {
+            // Node with the specified name found, update its status
+            strncpy(current->status, newStatus, sizeof(current->status) - 1);
+            current->status[sizeof(current->status) - 1] = '\0'; // Ensure null-terminated
+
+            // Optionally, break if you only want to update the first occurrence
+            // break;
+        }
+
+        current = current->next;
+    }
+}
+
+// Example usage
+updateStatusByName(&PendingList, "port1", "newStatus");
+```
+
+This function takes the linked list, the name to search for ("port1" in this case), and the new status. It then iterates through the list, and when it finds a node with the specified name, it updates the status.
+
+Note: This assumes that `sectionName` and `status` in your `ConnectionsNode` structure are character arrays. If they are dynamically allocated strings, you'll need to adjust the updating process accordingly.
