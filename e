@@ -1,0 +1,1 @@
+https://pages.awscloud.com/GLOBAL-ln-GC-Cloud-Practitioner-Certification-Challenge-2023-confirmation.html?aliId=eyJpIjoieVlobWdYekpFXC92SHB4Z00iLCJ0IjoiQWRrNEcyNW9uK2JBaWZvS3ZpcGVTQT09In0%253D
